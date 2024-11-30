@@ -16,17 +16,21 @@ public class Interfaz {
     private String empleadoID = "N/A";
     private int seleccion;
     //Guardamos los datos de la reserva que se pasarán a la interfaz inicial
-    private String[] datoReserva = new String[12]; //Guardamos todos los datos de la reserva que se haga en el menu de reserva
+    private String[] datoReserva = new String[16]; //Guardamos todos los datos de la reserva que se haga en el menu de reserva
     private String reservaUnificadaString = "";
     private String salaCine = "N/A";
     private String Asiento = "N/A";
     private String horaCine = "N/A";
     private String Pelicula = "N/A";
+    private String diaCine = "N/A";
     private String horaGym = "N/A";
+    private String diaGym = "N/A";
     private String tipoClase = "N/A";
     private String horaClase = "N/A";
+    private String diaClase = "N/A";
     private String Bebida = "N/A";
     private String horaBebida = "N/A";
+    private String diaBebida = "N/A";
     private String finalizador = ".";
     
     //Metodo constructor
@@ -88,12 +92,16 @@ public class Interfaz {
                 datoReserva[3] = Asiento + "       ,";
                 datoReserva[4] = horaCine + "       ,";
                 datoReserva[5] = Pelicula + "       ,";
-                datoReserva[6] = horaGym + "       ,";
-                datoReserva[7] = tipoClase + "       ,";
-                datoReserva[8] = horaClase + "       ,";
-                datoReserva[9] = Bebida + "       ,";
-                datoReserva[10] = horaBebida + "       ,";
-                datoReserva[11] = finalizador;
+                datoReserva[6] = diaCine + "       ,";
+                datoReserva[7] = horaGym + "       ,";
+                datoReserva[8] = diaGym + "       ,";
+                datoReserva[9] = tipoClase + "       ,";
+                datoReserva[10] = horaClase + "       ,";
+                datoReserva[11] = diaClase + "       ,";
+                datoReserva[12] = Bebida + "       ,";
+                datoReserva[13] = horaBebida + "       ,";
+                datoReserva[14] = diaBebida + "       ,";
+                datoReserva[15] = finalizador;
                    
                 JOptionPane.showMessageDialog(null, "Se ha guardado la reserva exitosamente.");
                 //vueltaMenu();
@@ -126,6 +134,8 @@ public class Interfaz {
     }
     private void ClaseRegistro(){
         ClasesReserva ClaseRegistro = new ClasesReserva();
+        //Asignar las variables de arriba, los getters del objeto ClasesReserva
+        
     }
     private void BaristaRegistro()
     {

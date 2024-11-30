@@ -14,11 +14,11 @@ public class InterfazInicial {
     private int cantidadReservas = 0;
     private int seleccion;
     private String reservaConcatenada = ""; //Guarda la informacion de la reserva en un unico string
-    private boolean isFirstTime; //Controla si es la primera vez que se accede, de manera que el mensaje de bienvenida no aparezca en caso de no ser la primera vez
+    private boolean esPrimeraVez; //Controla si es la primera vez que se accede, de manera que el mensaje de bienvenida no aparezca en caso de no ser la primera vez
     //Constructor
-    public InterfazInicial(boolean isFirstTime) {
+    public InterfazInicial(boolean esPrimeraVez) {
         //Llamado metodos  
-        this.isFirstTime = isFirstTime;
+        this.esPrimeraVez = esPrimeraVez;
         opcionesMenuInicial();
     }
     //Setter y getters
@@ -32,7 +32,7 @@ public class InterfazInicial {
     {
         // 
         Object[] opciones = {"1- Reservar", "2- Gestion reservas", "3- Gestion cine", "4- Cerrar programa"};
-        if(isFirstTime)
+        if(esPrimeraVez)
         {
             JOptionPane.showMessageDialog(null, "Bienvenid@ al sistema de reservas.");
         }
@@ -70,7 +70,7 @@ public class InterfazInicial {
         Empleado empleado = new Empleado();
         Interfaz menuReserva = new Interfaz(empleado.getEmpleadoNombre(), empleado.getEmpleadoID());
         reservaConcatenada = reservaConcatenada + menuReserva.getDatoReserva();
-        isFirstTime = false;
+        esPrimeraVez = false;
         opcionesMenuInicial();
         
     }

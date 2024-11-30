@@ -9,8 +9,9 @@ package grupo4proyecto;
  * @author Juan Jose
  */
 public class ClasesReserva {
-
+    
     public ClasesReserva() {
+        //
     }
     
 }

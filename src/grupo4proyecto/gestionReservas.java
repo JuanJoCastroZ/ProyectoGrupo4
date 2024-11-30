@@ -39,11 +39,15 @@ public class gestionReservas {
                     "Asiento: " + elementosDeReserva[3] + "\n" +
                     "Hora funcion: " + elementosDeReserva[4] + "\n" +
                     "Pelicula: " + elementosDeReserva[5] + "\n" +
-                    "Hora gimnasio: " + elementosDeReserva[6] + "\n" +
-                    "Clase: " + elementosDeReserva[7] + "\n" +
-                    "Horario de clase: " + elementosDeReserva[8] +  "\n" +
-                    "Bebida: " + elementosDeReserva[9] + "\n" +
-                    "Hora de bebida: " + elementosDeReserva[10]
+                    "Dia de la funcion: " + elementosDeReserva[6] + "\n" +
+                    "Hora gimnasio: " + elementosDeReserva[7] + "\n" +
+                    "Dia gimnasio: " + elementosDeReserva[8] + "\n" +
+                    "Clase: " + elementosDeReserva[9] + "\n" +
+                    "Horario de clase: " + elementosDeReserva[10] +  "\n" +
+                    "Dia de clase: " + elementosDeReserva[11] +  "\n" +
+                    "Bebida: " + elementosDeReserva[12] + "\n" +
+                    "Hora de bebida: " + elementosDeReserva[13] + "\n" +
+                    "Dia de bebida: " + elementosDeReserva[14]
                     );
         }
     }
