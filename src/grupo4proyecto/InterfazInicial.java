@@ -16,7 +16,8 @@ public class InterfazInicial {
     private String reservaConcatenada = ""; //Guarda la informacion de la reserva en un unico string
     private boolean esPrimeraVez; //Controla si es la primera vez que se accede, de manera que el mensaje de bienvenida no aparezca en caso de no ser la primera vez
     //Constructor
-    public InterfazInicial(boolean esPrimeraVez) {
+    public InterfazInicial(boolean esPrimeraVez, int reservasCantidad) {
+        cantidadReservas = reservasCantidad;
         //Llamado metodos  
         this.esPrimeraVez = esPrimeraVez;
         opcionesMenuInicial();
@@ -44,7 +45,16 @@ public class InterfazInicial {
                 accesoReserva();
                 break;
             case 1:
-                accesoGestionReserva();
+                if(reservaConcatenada != "")
+                {
+                    accesoGestionReserva();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Aun no hay datos por mostrar.");
+                    esPrimeraVez = false;
+                    opcionesMenuInicial();
+                } 
         }
     }
     public int GetOpcionSelecta()

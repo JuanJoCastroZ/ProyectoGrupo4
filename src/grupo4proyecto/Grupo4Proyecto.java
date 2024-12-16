@@ -21,7 +21,7 @@ public class Grupo4Proyecto {
         /*
         |||MENU INICIAL|||
         */
-        InterfazInicial interfazInicial = new InterfazInicial(true);
+        InterfazInicial interfazInicial = new InterfazInicial(true, 0);
         int cantidadReservas = 0;
         
         

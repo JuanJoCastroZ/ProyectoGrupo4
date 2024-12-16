@@ -15,6 +15,7 @@ public class Interfaz {
     private String empleadoNombre = "N/A";
     private String empleadoID = "N/A";
     private int seleccion;
+    private int cantidadReservas = 0;
     //Guardamos los datos de la reserva que se pasarán a la interfaz inicial
     private String[] datoReserva = new String[16]; //Guardamos todos los datos de la reserva que se haga en el menu de reserva
     private String reservaUnificadaString = "";
@@ -102,7 +103,7 @@ public class Interfaz {
                 datoReserva[13] = horaBebida + "       ,";
                 datoReserva[14] = diaBebida + "       ,";
                 datoReserva[15] = finalizador;
-                   
+                cantidadReservas++;
                 JOptionPane.showMessageDialog(null, "Se ha guardado la reserva exitosamente.");
                 //vueltaMenu();
                 break;
@@ -113,7 +114,7 @@ public class Interfaz {
     }
     private void vueltaMenu()
     {
-        InterfazInicial interfazInicial = new InterfazInicial(false);
+        InterfazInicial interfazInicial = new InterfazInicial(false, cantidadReservas);
     }
 
     public String getDatoReserva() {
@@ -135,7 +136,7 @@ public class Interfaz {
     private void ClaseRegistro(){
         ClasesReserva ClaseRegistro = new ClasesReserva();
         //Asignar las variables de arriba, los getters del objeto ClasesReserva
-        
+       
     }
     private void BaristaRegistro()
     {
