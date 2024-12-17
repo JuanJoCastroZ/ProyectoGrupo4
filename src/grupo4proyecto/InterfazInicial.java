@@ -13,7 +13,8 @@ import javax.swing.JOptionPane;
 public class InterfazInicial {
     private int cantidadReservas = 0;
     private int seleccion;
-    private String reservaConcatenada = ""; //Guarda la informacion de la reserva en un unico string
+    private GeneradorReserva[] listaReservas = new GeneradorReserva[10];
+    
     private boolean esPrimeraVez; //Controla si es la primera vez que se accede, de manera que el mensaje de bienvenida no aparezca en caso de no ser la primera vez
     //Constructor
     public InterfazInicial(boolean esPrimeraVez, int reservasCantidad) {
@@ -21,6 +22,7 @@ public class InterfazInicial {
         //Llamado metodos  
         this.esPrimeraVez = esPrimeraVez;
         opcionesMenuInicial();
+        
     }
     //Setter y getters
 
@@ -32,6 +34,7 @@ public class InterfazInicial {
     public void opcionesMenuInicial() //Da bienvenida y recolecta menú por ingresar
     {
         // 
+        
         Object[] opciones = {"1- Reservar", "2- Gestion reservas", "3- Gestion cine", "4- Cerrar programa"};
         if(esPrimeraVez)
         {
@@ -42,19 +45,28 @@ public class InterfazInicial {
         switch(seleccion)
         {
             case 0:
-                accesoReserva();
+                
+                Empleado empleado = new Empleado();
+                Interfaz menuReserva = new Interfaz(empleado.getEmpleadoNombre(), empleado.getEmpleadoID());
+                listaReservas[cantidadReservas] = menuReserva.reservaGetter();
+                cantidadReservas++;
+                esPrimeraVez = false;
+                opcionesMenuInicial();
+                
                 break;
             case 1:
-                if(reservaConcatenada != "")
+                
+                if(cantidadReservas != 0)
                 {
+                    esPrimeraVez = false;
                     accesoGestionReserva();
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Aun no hay datos por mostrar.");
                     esPrimeraVez = false;
+                    JOptionPane.showMessageDialog(null, "Aun no existen entradas.");
                     opcionesMenuInicial();
-                } 
+                }
         }
     }
     public int GetOpcionSelecta()
@@ -62,31 +74,19 @@ public class InterfazInicial {
         return seleccion;
     }
     
-    public void concatenarReserva(String[] datoReserva) //Guarda los datos de la reserva en el string reservaConcatenada
-    {
-        for(int i = 0; i < datoReserva.length; i++)
-        {
-            reservaConcatenada = reservaConcatenada + datoReserva[i];
-            System.out.println(reservaConcatenada);
-        }
-    }
+    
 
-    public String getReservaConcatenada() {
-        return reservaConcatenada;
-    }
+    
     //Metodos menu
     public void accesoReserva()
     {
-        Empleado empleado = new Empleado();
-        Interfaz menuReserva = new Interfaz(empleado.getEmpleadoNombre(), empleado.getEmpleadoID());
-        reservaConcatenada = reservaConcatenada + menuReserva.getDatoReserva();
-        esPrimeraVez = false;
-        opcionesMenuInicial();
+        
         
     }
     public void accesoGestionReserva()
     {
-        gestionReservas gestorReserva = new gestionReservas(reservaConcatenada);
+        gestionReservas gestorReserva = new gestionReservas(listaReservas,cantidadReservas);
+        opcionesMenuInicial();
     }
     
 }

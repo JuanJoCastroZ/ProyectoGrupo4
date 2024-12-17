@@ -4,6 +4,7 @@
  */
 package grupo4proyecto;
 
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,25 +15,23 @@ public class Interfaz {
     //Atributos
     private String empleadoNombre = "N/A";
     private String empleadoID = "N/A";
-    private int seleccion;
-    private int cantidadReservas = 0;
-    //Guardamos los datos de la reserva que se pasarán a la interfaz inicial
-    private String[] datoReserva = new String[16]; //Guardamos todos los datos de la reserva que se haga en el menu de reserva
-    private String reservaUnificadaString = "";
-    private String salaCine = "N/A";
+    private int seleccion; //Guarda la opcion de menu seleccionada
+    private int cantidadReservas = 0; //Control para matriz
+    //Guardamos los datos de la reserva que se pasarán al objeto reserva que se crea al confirmar la generación de reserva (Opcion de menu: 4)
+    private int salaCine = 0;
     private String Asiento = "N/A";
-    private String horaCine = "N/A";
     private String Pelicula = "N/A";
-    private String diaCine = "N/A";
-    private String horaGym = "N/A";
-    private String diaGym = "N/A";
+    private Calendar calendarCine;
+    private Calendar calendarGym;
     private String tipoClase = "N/A";
-    private String horaClase = "N/A";
-    private String diaClase = "N/A";
+    private Calendar calendarClase;
     private String Bebida = "N/A";
-    private String horaBebida = "N/A";
-    private String diaBebida = "N/A";
-    private String finalizador = ".";
+    private Calendar calendarBebida;
+    //Objeto
+    GeneradorReserva reserva;
+    
+    //Lista de objetos en este caso reservas
+    
     
     //Metodo constructor
     public Interfaz(String empleadoNombre, String empleadoID) {
@@ -63,7 +62,7 @@ public class Interfaz {
         MenuReserva(seleccion);
     }
     public void MenuReserva(int seleccion) {
-
+//a
         /*
                 |||MENU RESERVA|||
          */
@@ -86,44 +85,18 @@ public class Interfaz {
                 opcionesMenuReserva();
                 break;
             case 4:
-                //Los agregamos al array de la reserva
-                datoReserva[0] = empleadoNombre + "       ,";
-                datoReserva[1] = empleadoID + "       ,";
-                datoReserva[2] = salaCine + "       ,";
-                datoReserva[3] = Asiento + "       ,";
-                datoReserva[4] = horaCine + "       ,";
-                datoReserva[5] = Pelicula + "       ,";
-                datoReserva[6] = diaCine + "       ,";
-                datoReserva[7] = horaGym + "       ,";
-                datoReserva[8] = diaGym + "       ,";
-                datoReserva[9] = tipoClase + "       ,";
-                datoReserva[10] = horaClase + "       ,";
-                datoReserva[11] = diaClase + "       ,";
-                datoReserva[12] = Bebida + "       ,";
-                datoReserva[13] = horaBebida + "       ,";
-                datoReserva[14] = diaBebida + "       ,";
-                datoReserva[15] = finalizador;
-                cantidadReservas++;
+                //Agregamos los datos a los setters del generador de reserva
+                reserva = new GeneradorReserva(empleadoNombre, empleadoID, salaCine, Asiento, Pelicula, calendarCine, calendarGym, tipoClase, calendarClase, Bebida, calendarBebida);
                 JOptionPane.showMessageDialog(null, "Se ha guardado la reserva exitosamente.");
-                //vueltaMenu();
                 break;
+                //vuelta a Menu
+                
             case 5:
-                //vueltaMenu();
+                //vuelta a Menu
                 break;
         }
     }
-    private void vueltaMenu()
-    {
-        InterfazInicial interfazInicial = new InterfazInicial(false, cantidadReservas);
-    }
-
-    public String getDatoReserva() {
-        for(int i = 0; i < datoReserva.length; i++)
-        {
-            reservaUnificadaString = reservaUnificadaString + datoReserva[i];
-        }
-        return reservaUnificadaString;
-    }
+    
     //Metodos para distintas reservas
     private void CineRegistro()
     {
@@ -141,5 +114,18 @@ public class Interfaz {
     private void BaristaRegistro()
     {
         BaristaReserva BaristaRegistro = new BaristaReserva();
+    }
+    
+    public GeneradorReserva reservaGetter()
+    {
+        if(reserva != null)
+        {
+            return reserva;
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No se generó ninguna nueva reserva");
+            return reserva;
+        }        
     }
 }

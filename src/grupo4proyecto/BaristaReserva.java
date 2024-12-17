@@ -11,7 +11,7 @@ import java.util.Calendar;
  * @author Juan Jose
  */
 public class BaristaReserva {
-    private String Bebida;
+    /*private String Bebida;
     private Calendar horaBebida;
     private Calendar diaBebida;
     
@@ -113,5 +113,5 @@ public class BaristaReserva {
         reserva.solicitarInformacion();
         reserva.mostrartPedido();
         System.out.println("Resumen de la reserva: " + reserva.obtenerDatosReserva());
-    }
+    }*/
 }
