@@ -1,92 +1,97 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package grupo4proyecto;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
-/**
- *
- * @author Juan Jose
- */
-public class InterfazInicial {
-    private int cantidadReservas = 0;
-    private int seleccion;
+public class InterfazInicial extends JPanel {
     private GeneradorReserva[] listaReservas = new GeneradorReserva[10];
-    
-    private boolean esPrimeraVez; //Controla si es la primera vez que se accede, de manera que el mensaje de bienvenida no aparezca en caso de no ser la primera vez
-    //Constructor
-    public InterfazInicial(boolean esPrimeraVez, int reservasCantidad) {
-        cantidadReservas = reservasCantidad;
-        //Llamado metodos  
+    private int cantidadReservas = 0;
+    private JFrame framePrograma;
+    private boolean esPrimeraVez;
+
+    // Constructor
+    public InterfazInicial(boolean esPrimeraVez, int reservasCantidad, JFrame framePrograma) {
         this.esPrimeraVez = esPrimeraVez;
-        opcionesMenuInicial();
-        
+        this.cantidadReservas = reservasCantidad;
+        this.framePrograma = framePrograma;
+        initPanel();
     }
-    //Setter y getters
 
-    public int getCantidadReservas() {
-        return cantidadReservas;
+    // Método que devuelve este panel
+    public JPanel getPanel() {
+        return this;
     }
+    // Método para configurar reservas existentes y actualizar la interfaz
+    public void setReservas(GeneradorReserva[] reservas, int cantidad) {
+        this.listaReservas = reservas;
+        this.cantidadReservas = cantidad;
+
+        //Reiniciar el panel
+        removeAll();
+        initPanel();  
+        revalidate();  
+        repaint();  
+    }
+
+
     
-    //Metodos
-    public void opcionesMenuInicial() //Da bienvenida y recolecta menú por ingresar
-    {
-        // 
-        
-        Object[] opciones = {"1- Reservar", "2- Gestion reservas", "3- Gestion cine", "4- Cerrar programa"};
-        if(esPrimeraVez)
-        {
-            JOptionPane.showMessageDialog(null, "Bienvenid@ al sistema de reservas.");
+    private void initPanel() {
+        setLayout(new BorderLayout());
+
+        JLabel label = new JLabel("Bienvenid@ al sistema de reservas", JLabel.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        add(label, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        String[] opciones = {"Reservar", "Gestion reservas", "Cerrar programa"};
+
+        for (String opcion : opciones) {
+            JButton button = new JButton(opcion);
+            button.addActionListener((ActionEvent e) -> handleButtonClick(opcion));
+            buttonPanel.add(button);
         }
-        // Muestra las opciones del menu
-        seleccion = JOptionPane.showOptionDialog(null,"Elige una opcion:","Menu inicial",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, opciones, opciones[0]);
-        switch(seleccion)
-        {
-            case 0:
-                
+        add(buttonPanel, BorderLayout.CENTER);
+    }
+
+    private void handleButtonClick(String opcion) {
+        switch (opcion) {
+            case "Reservar":
                 Empleado empleado = new Empleado();
-                Interfaz menuReserva = new Interfaz(empleado.getEmpleadoNombre(), empleado.getEmpleadoID());
-                listaReservas[cantidadReservas] = menuReserva.reservaGetter();
-                cantidadReservas++;
-                esPrimeraVez = false;
-                opcionesMenuInicial();
-                
-                break;
-            case 1:
-                
-                if(cantidadReservas != 0)
-                {
-                    esPrimeraVez = false;
-                    accesoGestionReserva();
-                }
-                else
-                {
-                    esPrimeraVez = false;
-                    JOptionPane.showMessageDialog(null, "Aun no existen entradas.");
-                    opcionesMenuInicial();
-                }
-        }
-    }
-    public int GetOpcionSelecta()
-    {
-        return seleccion;
-    }
-    
-    
+                Interfaz panelReserva = new Interfaz(empleado.getEmpleadoNombre(), empleado.getEmpleadoID(), framePrograma);
 
-    
-    //Metodos menu
-    public void accesoReserva()
-    {
-        
-        
+                int result = JOptionPane.showConfirmDialog(framePrograma, panelReserva, 
+                        "Reservar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                if (result == JOptionPane.OK_OPTION && panelReserva.getReserva() != null) {
+                    listaReservas[cantidadReservas++] = panelReserva.getReserva();
+                } else {
+                    JOptionPane.showMessageDialog(framePrograma, "No se generó ninguna reserva.");
+                }
+                break;
+
+            case "Gestion reservas":
+                if (cantidadReservas > 0) {
+                    mostrarGestionReservas();  // Aquí va el cambio
+                } else {
+                    JOptionPane.showMessageDialog(framePrograma, "Aún no existen entradas.");
+                }
+                break;
+
+            case "Cerrar programa":
+                System.exit(0);
+                break;
+        }
+    }   
+
+    // Nuevo método para mostrar la gestión de reservas
+    private void mostrarGestionReservas() {
+        gestionReservas gestorReserva = new gestionReservas(listaReservas, cantidadReservas, framePrograma);
+
+        // Reemplaza el contenido actual
+        framePrograma.setContentPane(gestorReserva.getPanel());
+        framePrograma.revalidate();
+        framePrograma.repaint();
     }
-    public void accesoGestionReserva()
-    {
-        gestionReservas gestorReserva = new gestionReservas(listaReservas,cantidadReservas);
-        opcionesMenuInicial();
-    }
-    
+
 }

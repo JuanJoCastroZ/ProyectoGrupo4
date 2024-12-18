@@ -4,147 +4,187 @@
  */
 package grupo4proyecto;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat; //Para mantener formato de calendar
+import java.util.Calendar;
 
-/**
- *
- * @author Juan Jose
- */
-public class gestionReservas {
-    
-    //Reflejo de los objetos creados hasta el momento
-    private int cantidadReservas = 0;
-    private GeneradorReserva[] listaReservas = new GeneradorReserva[100];
-    //Atributo que guardara la seleccion hecha por el usuario respecto a que hacer con cada reserva que se le muestre
-    private int Seleccion;
-    //Metodo constructor
-    public gestionReservas(GeneradorReserva[] listaReservas, int cantidadReservas) {
+public class gestionReservas extends JPanel {
+    private GeneradorReserva[] listaReservas;
+    private int cantidadReservas;
+    private JFrame framePrograma;
+
+    //Método constructor
+    public gestionReservas(GeneradorReserva[] listaReservas, int cantidadReservas, JFrame framePrograma) {
         this.listaReservas = listaReservas;
         this.cantidadReservas = cantidadReservas;
-        muestraReservas();
+        this.framePrograma = framePrograma;
+        initPanel();
     }
-    //Metodos
-    public void muestraReservas() //Muestra todas las reservas generadas en listaDeReservas
-    {
-        //Enorme joption show con todos los datos de las reservas
-        for(int i = 0; i < listaReservas.length; i++)
-        {
-            if(listaReservas[i] != null)
-            {
-                String porImprimir = "Nombre del empleado: " + listaReservas[i].getEmpleadoNombre() + 
-                        "\n" +
-                        "ID del Empleado: " + listaReservas[i].getEmpleadoID()
-                        + "\n" +
-                        "Sala de Cine: " + listaReservas[i].getSalaCine()
-                        + "\n" +
-                        "Asiento: " + listaReservas[i].getAsiento()
-                        + "\n" +
-                        "Película: " + listaReservas[i].getPelicula()
-                        + "\n" +
-                        "Fecha y Hora del Cine: " + listaReservas[i].getCalendarCine()
-                        + "\n" +
-                        "Fecha y Hora del Gimnasio: " + listaReservas[i].getCalendarGym()
-                        + "\n" +
-                        "Tipo de Clase: " + listaReservas[i].getTipoClase()
-                        + "\n" +
-                        "Fecha y Hora de la Clase: "+ listaReservas[i].getCalendarClase()
-                        + "\n" +
-                        "Bebida: " + listaReservas[i].getBebida()
-                        + "\n" +
-                        "Fecha y Hora de la Bebida: " + listaReservas[i].getCalendarBebida()
-                        ;
+    //Métodos
+    //Método que devuelve este panel
+    public JPanel getPanel() {
+        return this;
+    }
 
+    private void initPanel() {
+        setLayout(new BorderLayout());
 
-                Object[] opciones = {"Modificar", "Eliminar", "Siguiente"};
-                Seleccion = JOptionPane.showOptionDialog(null, porImprimir, "Menu gestion de reservas",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, opciones, opciones[0]);
+        //Etiqueta principal
+        JLabel label = new JLabel("Gestión de Reservas", JLabel.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        add(label, BorderLayout.NORTH);
 
-                switch (Seleccion) { //
-                    case 0:
-                        MoficiarReserva(i);
-                        
-                        break;
-                    case 1:
-                        eliminarReserva(i);
-                        break;
-                    case 2:
-                        break;
-                }
+        //Panel para mostrar los botones de reservas
+        JPanel panelBotones = new JPanel(new GridLayout(cantidadReservas + 1, 1, 10, 10));
+
+        //Mostrar cada reserva con opciones
+        for (int i = 0; i < cantidadReservas; i++) {
+            if (listaReservas[i] != null) {
+                String infoReserva = generarTextoReserva(listaReservas[i]); 
+                JButton botonReserva = new JButton("Reserva " + (i + 1));
+                final int indiceReserva = i; //Se declara final para evitar alteraciones
+                botonReserva.addActionListener((ActionEvent e) -> mostrarOpciones(indiceReserva, infoReserva));
+                panelBotones.add(botonReserva);
             }
-        } 
+        }
+
+        //Botón de regreso a la interfaz inicial
+        JButton botonRegresar = new JButton("Volver a la Interfaz Inicial");
+        botonRegresar.addActionListener((ActionEvent e) -> regresarInterfazInicial());
+        panelBotones.add(botonRegresar);  //Agregar el botón al panel principal
+
+        add(panelBotones, BorderLayout.CENTER);  //Agregar el panel principal a la ventana
     }
-    //Modificar reservas
-    private void MoficiarReserva(int posicionReserva)
-    {
-        Object[] opciones = {"Nombre del Empleado", "ID del Empleado", "Sala de Cine", "Asiento", "Película", "Fecha y Hora del Cine", 
-            "Fecha y Hora del Gimnasio", "Tipo de Clase", "Fecha y Hora de la Clase", "Bebida", "Fecha y hora de la Bebida"}; 
-        int SeleccionInterna;
-        SeleccionInterna = JOptionPane.showOptionDialog(null,"Elige un campo por cambiar:","Modificar reserva",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, opciones, opciones[0]);
-        boolean ocupado = false;
-        switch(SeleccionInterna) //Pregunta por el nuevo dato dependiendo del campo seleccionado para ser modificado
-        {
-            case 0: 
-                String Nombre = JOptionPane.showInputDialog("Introduce el nuevo nombre: ");
-                listaReservas[posicionReserva].setEmpleadoNombre(Nombre);
+
+
+    //Genera texto para mostrar los datos de una reserva en formato HTML que utilizará el método addActionListener
+    private String generarTextoReserva(GeneradorReserva reserva) {
+        return "<html>" +
+                "<b>Nombre:</b> " + reserva.getEmpleadoNombre() + "<br>" +
+                "<b>ID:</b> " + reserva.getEmpleadoID() + "<br>" +
+                "<b>Sala de Cine:</b> " + reserva.getSalaCine() + "<br>" +
+                "<b>Asiento:</b> " + reserva.getAsiento() + "<br>" +
+                "<b>Película:</b> " + reserva.getPelicula() + "<br>" +
+                "<b>Fecha y Hora del Cine:</b> " + reserva.getCalendarCine() + "<br>" +
+                "<b>Fecha y Hora del Gimnasio:</b> " + reserva.getCalendarGym() + "<br>" +
+                "<b>Tipo de Clase:</b> " + reserva.getTipoClase() + "<br>" +
+                "<b>Fecha y Hora de la Clase:</b> " + reserva.getCalendarClase() + "<br>" +
+                "<b>Bebida:</b> " + reserva.getBebida() + "<br>" +
+                "<b>Fecha y Hora de la Bebida:</b> " + reserva.getCalendarBebida() + 
+                "</html>";
+    }
+
+
+
+    //Muestra los datos dependiendo de la reserva seleccionada a su vez que los botones de acciones
+    private void mostrarOpciones(int indice, String infoReserva) {
+        Object[] opciones = {"Modificar", "Eliminar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(framePrograma, infoReserva, 
+                "Opciones de Reserva", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, 
+                null, opciones, opciones[0]);
+
+        switch (seleccion) {
+            case 0: // Modificar
+                MoficiarReserva(indice);
                 break;
-            case 1: 
-                //System.out.println(listaReservas[i].getEmpleadoID());
-                String ID = JOptionPane.showInputDialog("Introduce el nuevo ID: ");
-                for(int i = 0; i < listaReservas.length; i++)
-                {
-                    System.out.println(listaReservas[i]);
-                    if(listaReservas[i].getEmpleadoID() == ID)
-                    {
-                        ocupado = true;
-                    }
-                }
-                
-                listaReservas[posicionReserva].setEmpleadoID(ID);
+            case 1: // Eliminar
+                listaReservas[indice] = null;
+                JOptionPane.showMessageDialog(framePrograma, "Reserva eliminada.");
+                actualizarPanel();
                 break;
-            case 2:
-                listaReservas[posicionReserva].setSalaCine(Integer.parseInt(JOptionPane.showInputDialog("Introduce la nueva sala de Cine: ")));
-                break;  
-            case 3:
-                listaReservas[posicionReserva].setAsiento(JOptionPane.showInputDialog("Introduce el nuevo asiento: "));
-                break;  
-            case 4:
-                listaReservas[posicionReserva].setPelicula(JOptionPane.showInputDialog("Introduce la nueva pelicula: "));
-                break;  
-            case 5:
-                //listaReservas[posicionReserva].setCalendarCine(JOptionPane.showInputDialog("Introduce la nueva fecha: "));
-                break;
-            case 6:
-                //listaReservas[posicionReserva].setCalendarGym("Introduce la nueva fecha: ");
-                break;
-            case 7:
-                listaReservas[posicionReserva].setTipoClase("Introduce la nueva clase: ");
-                break;
-            case 8:
-                //listaReservas[posicionReserva].setCalendarClase("Introduce la nueva fecha: ");
-                break;
-            case 9:
-                listaReservas[posicionReserva].setBebida("Introduce la nueva bebida: ");
-                break;
-            case 10:
-                //listaReservas[posicionReserva].setCalendarBebida("Introduce la nueva fecha: ");
-                break;         
+            default:
+                break; // Cancelar
         }
     }
-    
-    private void eliminarReserva(int posicionReserva)
-    {
-        listaReservas[posicionReserva] = null;
+
+    //Método para modificar una reserva existente
+    private void MoficiarReserva(int posicionReserva) {
+    //Opciones disponibles para modificar los campos de la reserva
+    Object[] opciones = {"Nombre del Empleado", "ID del Empleado", "Sala de Cine", "Asiento", "Película", "Fecha y Hora del Cine\n", "Fecha y Hora del Gimnasio", "Tipo de Clase", "Fecha y Hora de la Clase", "Bebida", "Fecha y hora de la Bebida"
+    };
+
+    //Mostrar cuadro de diálogo para seleccionar el campo a modificar
+    int seleccionInterna = JOptionPane.showOptionDialog(framePrograma, "Elige un campo para modificar:", "Modificar Reserva", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+
+    //Modificar el campo seleccionado
+        switch (seleccionInterna) { //Cada caso corresponde a un atributo por ser cambiado
+            case 0: 
+                
+                String nuevoNombre = JOptionPane.showInputDialog(framePrograma, "Introduce el nuevo nombre:");
+                listaReservas[posicionReserva].setEmpleadoNombre(nuevoNombre);
+                break;
+
+            case 1:  
+                String nuevoID = JOptionPane.showInputDialog(framePrograma, "Introduce el nuevo ID:");
+                listaReservas[posicionReserva].setEmpleadoID(nuevoID);
+                break;
+            case 2:
+                listaReservas[posicionReserva].setSalaCine(Integer.parseInt(
+                        JOptionPane.showInputDialog(framePrograma, "Introduce la nueva sala de cine:")
+                ));
+                break;
+            case 3:
+                listaReservas[posicionReserva].setAsiento(
+                        JOptionPane.showInputDialog(framePrograma, "Introduce el nuevo asiento:")
+                );
+                break;
+            case 4:
+                listaReservas[posicionReserva].setPelicula(
+                        JOptionPane.showInputDialog(framePrograma, "Introduce la nueva película:")
+                );
+                break;
+            case 5:
+                //listaReservas[posicionReserva].setCalendarCine(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha del cine:"));
+                
+                break;
+            case 6:
+                //listaReservas[posicionReserva].setCalendarGym(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha del gimnasio:")
+                
+                break;
+            case 7:
+                //listaReservas[posicionReserva].setTipoClase(JOptionPane.showInputDialog(framePrograma, "Introduce el nuevo tipo de clase:"));
+                break;
+            case 8:
+                //listaReservas[posicionReserva].setCalendarClase(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha de la clase:"));
+                break;
+            case 9:
+                listaReservas[posicionReserva].setBebida(
+                        JOptionPane.showInputDialog(framePrograma, "Introduce la nueva bebida:")
+                );
+                break;
+            case 10:
+                //listaReservas[posicionReserva].setCalendarBebida(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha de la bebida:"));
+                break;
+            default:  
+                break;
+        }
+        actualizarPanel();
     }
-    private void mensajeError()
-    {
-        JOptionPane.showConfirmDialog(null, "Ya está ocupado.");
+    //Da formato con simpledateformat a los datos calendar de la reserva
+    private String formatearFecha(Calendar fecha) {
+        if (fecha == null) {
+            return "Sin definir";
+        }
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return formato.format(fecha.getTime());
     }
-    private void mensajeConfirmacion()
-    {
-     JOptionPane.showMessageDialog(null, "Campo modificado correctamente");
+
+    //Remueve y agrega de nuevo la información con metodos de java swing
+    private void actualizarPanel() {
+        removeAll();
+        initPanel();
+        revalidate();
+        repaint();
     }
-    private String checadorOcupado(int elementoChequeo, String datoComparacion)
-    {
-        return "NODATAEXISTENTE!";
+    //Metodo para regresar a la interfaz inicial manteniendo reservas
+    private void regresarInterfazInicial() {
+        InterfazInicial interfazInicial = new InterfazInicial(true, cantidadReservas, framePrograma);
+        interfazInicial.setReservas(listaReservas, cantidadReservas);  //Pasa las reservas existentes
+        framePrograma.setContentPane(interfazInicial.getPanel());
+        framePrograma.revalidate();
+        framePrograma.repaint();
     }
-    //public void verFacturas()
 }
+

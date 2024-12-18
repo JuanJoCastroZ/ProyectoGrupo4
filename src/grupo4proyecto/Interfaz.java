@@ -4,132 +4,112 @@
  */
 package grupo4proyecto;
 
-import java.util.Calendar;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Juan Jose
  */
-public class Interfaz {
-    //Atributos
-    private String empleadoNombre = "N/A";
-    private String empleadoID = "N/A";
-    private int seleccion; //Guarda la opcion de menu seleccionada
-    private int cantidadReservas = 0; //Control para matriz
-    //Guardamos los datos de la reserva que se pasarán al objeto reserva que se crea al confirmar la generación de reserva (Opcion de menu: 4)
-    private int salaCine = 0;
-    private String Asiento = "N/A";
-    private String Pelicula = "N/A";
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.Calendar;
+
+public class Interfaz extends JPanel {
+    private String empleadoNombre;
+    private String empleadoID;
+    private int salaCine;
+    private String asiento;
+    private String pelicula;
+    private String tipoClase;
+    private String bebida;
     private Calendar calendarCine;
     private Calendar calendarGym;
-    private String tipoClase = "N/A";
     private Calendar calendarClase;
-    private String Bebida = "N/A";
     private Calendar calendarBebida;
-    //Objeto
-    GeneradorReserva reserva;
-    
-    //Lista de objetos en este caso reservas
-    
-    
-    //Metodo constructor
-    public Interfaz(String empleadoNombre, String empleadoID) {
+    private GeneradorReserva reserva;
+    private JFrame framePrograma;
+
+    public Interfaz(String empleadoNombre, String empleadoID, JFrame framePrograma) {
         this.empleadoNombre = empleadoNombre;
         this.empleadoID = empleadoID;
-        //Llamada de metodos
-        opcionesMenuReserva();
-    }
-    //Getters
-    public String getEmpleadoNombre() {
-        return empleadoNombre;
+        this.framePrograma = framePrograma;
+        initPanel();
     }
 
-    public String getEmpleadoID() {
-        return empleadoID;
+    public JPanel getPanel() {
+        return this;
     }
 
-    public int getSeleccion() {
-        return seleccion;
+    private void initPanel() { //Muestra las opciones por poder reservar
+        setLayout(new BorderLayout());
+
+        JLabel label = new JLabel("Menú de Reservas", JLabel.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        add(label, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+        String[] opciones = {"Cine", "Gimnasio", "Clases", "Barista", "Generar reserva"}; //Almacena las opciones posibles
+
+        for (String opcion : opciones) { //Recorre cada opcion en opciones como for each para asi crear cada boyon y asignarle un evento de java swing
+            JButton botones = new JButton(opcion);
+            botones.addActionListener((ActionEvent e) -> botonPresionado(opcion));
+            buttonPanel.add(botones);
+        }
+        add(buttonPanel, BorderLayout.CENTER);
     }
-    
-    //Metodos
-     public void opcionesMenuReserva() //recolecta menú por ingresar
-    {
-        Object[] opciones = {"1- Cine", "2- Gimnasio", "3- Clases", "4- Barista", "5- Generar reserva", "6- Volver"};
-        // Muestra las distintas cosas que se pueden reservar
-        seleccion = JOptionPane.showOptionDialog(null,"Elige una opcion:","Menu reserva",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, opciones, opciones[0]);
-        MenuReserva(seleccion);
-    }
-    public void MenuReserva(int seleccion) {
-//a
-        /*
-                |||MENU RESERVA|||
-         */
-        switch (seleccion) //Recibe la seleccion del usuario y dependiendo del boton presionado, abre un tipo de reserva u otra
-        {
-            case 0:
+
+    private void botonPresionado(String opcion) {
+        switch (opcion) {
+            case "Cine":
                 CineRegistro();
-                opcionesMenuReserva();
                 break;
-            case 1:
+            case "Gimnasio":
                 GimnasioRegistro();
-                opcionesMenuReserva();
                 break;
-            case 2:
+            case "Clases":
                 ClaseRegistro();
-                opcionesMenuReserva();
                 break;
-            case 3:
+            case "Barista":
                 calendarBebida = Calendar.getInstance();
                 BaristaRegistro();
-                opcionesMenuReserva();
                 break;
-            case 4:
-                //Agregamos los datos a los setters del generador de reserva
-                reserva = new GeneradorReserva(empleadoNombre, empleadoID, salaCine, Asiento, Pelicula, calendarCine, calendarGym, tipoClase, calendarClase, Bebida, calendarBebida);
-                JOptionPane.showMessageDialog(null, "Se ha guardado la reserva exitosamente.");
-                break;
-                //vuelta a Menu
-                
-            case 5:
-                //vuelta a Menu
-                break;
+            case "Generar reserva":
+                generarReserva();
+                return;
         }
     }
-    
-    //Metodos para distintas reservas
-    private void CineRegistro()
-    {
-        CineReserva CineRegistro = new CineReserva();
+
+    private void CineRegistro() {
+        /*CineReserva cine = new CineReserva(framePrograma);
+        salaCine = cine.getSalaCine();
+        asiento = cine.getAsiento();
+        pelicula = cine.getPelicula();
+        calendarCine = cine.getCalendarCine();*/
     }
-    private void GimnasioRegistro()
-    {
-        GimnasioReserva GimnasioRegistro = new GimnasioReserva();
+
+    private void GimnasioRegistro() {
+        GimnasioReserva gimnasio = new GimnasioReserva(framePrograma);
+        calendarGym = gimnasio.getFechaHoraReserva();
     }
-    private void ClaseRegistro(){
-        ClasesReserva ClaseRegistro = new ClasesReserva();
-        //Asignar las variables de arriba, los getters del objeto ClasesReserva
-        calendarClase = ClaseRegistro.getCalendarClase();
-        tipoClase = ClaseRegistro.getTipoClase();
-       
+
+    private void ClaseRegistro() {
+        ClasesReserva clases = new ClasesReserva(framePrograma);
+        tipoClase = clases.getTipoClase();
+        calendarClase = clases.getCalendarClase();
     }
-    private void BaristaRegistro()
-    {
-        BaristaReserva BaristaRegistro = new BaristaReserva();
-        calendarBebida.set(BaristaRegistro.getDiaBebida().get(Calendar.YEAR), BaristaRegistro.getDiaBebida().get(Calendar.MONTH), BaristaRegistro.getDiaBebida().get(Calendar.DAY_OF_MONTH), BaristaRegistro.getHoraBebida().get(Calendar.HOUR_OF_DAY), BaristaRegistro.getHoraBebida().get(Calendar.MINUTE));
+
+    private void BaristaRegistro() {
+        BaristaReserva barista = new BaristaReserva(framePrograma);
+        bebida = barista.getBebida();
+        calendarBebida.set(barista.getDiaBebida().get(Calendar.YEAR), barista.getDiaBebida().get(Calendar.MONTH), barista.getDiaBebida().get(Calendar.DAY_OF_MONTH), barista.getHoraBebida().get(Calendar.HOUR_OF_DAY), barista.getHoraBebida().get(Calendar.MINUTE));
     }
-    
-    public GeneradorReserva reservaGetter()
-    {
-        if(reserva != null)
-        {
-            return reserva;
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "No se generó ninguna nueva reserva");
-            return reserva;
-        }        
+
+    private void generarReserva() {
+        reserva = new GeneradorReserva(empleadoNombre, empleadoID, salaCine, asiento, pelicula,calendarCine, calendarGym, tipoClase, calendarClase, bebida, calendarBebida);
+        JOptionPane.showMessageDialog(framePrograma, "Reserva generada correctamente.");
+    }
+
+    public GeneradorReserva getReserva() {
+        return reserva;
     }
 }
+

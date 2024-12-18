@@ -4,31 +4,20 @@
  */
 package grupo4proyecto;
 
-import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
- *
- * @author Juan Jose
+ * Clase principal para ejecutar el programa de reservas.
  */
 public class Grupo4Proyecto {
 
     /**
      * @param args the command line arguments
      */
-    
     public static void main(String[] args) {
-        // TODO code application logic here
-        /*
-        |||MENU INICIAL|||
-        */
-        InterfazInicial interfazInicial = new InterfazInicial(true, 0);
-        int cantidadReservas = 0;
-        
-        
-        
-        
-        
-        
+        SwingUtilities.invokeLater(() -> {
+            framePrograma frame = new framePrograma();
+            frame.setVisible(true);
+        });
     }
-    
 }
