@@ -54,7 +54,7 @@ public class Interfaz {
     }
     
     //Metodos
-     public void opcionesMenuReserva() //Da bienvenida y recolecta menú por ingresar
+     public void opcionesMenuReserva() //recolecta menú por ingresar
     {
         Object[] opciones = {"1- Cine", "2- Gimnasio", "3- Clases", "4- Barista", "5- Generar reserva", "6- Volver"};
         // Muestra las distintas cosas que se pueden reservar
@@ -81,6 +81,7 @@ public class Interfaz {
                 opcionesMenuReserva();
                 break;
             case 3:
+                calendarBebida = Calendar.getInstance();
                 BaristaRegistro();
                 opcionesMenuReserva();
                 break;
@@ -109,11 +110,14 @@ public class Interfaz {
     private void ClaseRegistro(){
         ClasesReserva ClaseRegistro = new ClasesReserva();
         //Asignar las variables de arriba, los getters del objeto ClasesReserva
+        calendarClase = ClaseRegistro.getCalendarClase();
+        tipoClase = ClaseRegistro.getTipoClase();
        
     }
     private void BaristaRegistro()
     {
         BaristaReserva BaristaRegistro = new BaristaReserva();
+        calendarBebida.set(BaristaRegistro.getDiaBebida().get(Calendar.YEAR), BaristaRegistro.getDiaBebida().get(Calendar.MONTH), BaristaRegistro.getDiaBebida().get(Calendar.DAY_OF_MONTH), BaristaRegistro.getHoraBebida().get(Calendar.HOUR_OF_DAY), BaristaRegistro.getHoraBebida().get(Calendar.MINUTE));
     }
     
     public GeneradorReserva reservaGetter()

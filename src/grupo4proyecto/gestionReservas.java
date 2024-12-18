@@ -85,10 +85,19 @@ public class gestionReservas {
             case 0: 
                 String Nombre = JOptionPane.showInputDialog("Introduce el nuevo nombre: ");
                 listaReservas[posicionReserva].setEmpleadoNombre(Nombre);
-                
                 break;
             case 1: 
+                //System.out.println(listaReservas[i].getEmpleadoID());
                 String ID = JOptionPane.showInputDialog("Introduce el nuevo ID: ");
+                for(int i = 0; i < listaReservas.length; i++)
+                {
+                    System.out.println(listaReservas[i]);
+                    if(listaReservas[i].getEmpleadoID() == ID)
+                    {
+                        ocupado = true;
+                    }
+                }
+                
                 listaReservas[posicionReserva].setEmpleadoID(ID);
                 break;
             case 2:

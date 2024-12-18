@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package grupo4proyecto;
+import java.text.SimpleDateFormat;
 import java.util.Calendar; //Importamos paquete para manejar datos tipo calendario
 /**
  *
@@ -39,6 +40,16 @@ public class GeneradorReserva {
         this.calendarBebida = calendarBebida;
         //LLamado de metodos
     }
+    
+    // Da formato legible a los datos de calendar
+    private String calendarToString(Calendar calendar) {
+        if (calendar == null) {
+            return "Fecha no definida";
+        }
+        SimpleDateFormat fechaSimplificada = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return fechaSimplificada.format(calendar.getTime());
+    }
+    
     //Setters para todos los datos
 
     public void setEmpleadoNombre(String empleadoNombre) {
@@ -85,8 +96,6 @@ public class GeneradorReserva {
         this.calendarBebida = calendarBebida;
     }
     
-    
-    
     //Getters para todos los datos
 
     public String getEmpleadoNombre() {
@@ -109,30 +118,27 @@ public class GeneradorReserva {
         return Pelicula;
     }
 
-    public Calendar getCalendarCine() {
-        return calendarCine;
+    public String getCalendarCine() {
+        return calendarToString(calendarCine);
     }
 
-    public Calendar getCalendarGym() {
-        return calendarGym;
+    public String getCalendarGym() {
+        return calendarToString(calendarGym);
     }
 
     public String getTipoClase() {
         return tipoClase;
     }
 
-    public Calendar getCalendarClase() {
-        return calendarClase;
+    public String getCalendarClase() {
+        return calendarToString(calendarClase);
     }
 
     public String getBebida() {
         return Bebida;
     }
 
-    public Calendar getCalendarBebida() {
-        return calendarBebida;
+    public String getCalendarBebida() {
+        return calendarToString(calendarBebida);
     }
-
-    
-    
 }
