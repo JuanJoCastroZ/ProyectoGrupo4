@@ -79,11 +79,11 @@ public class Interfaz extends JPanel {
     }
 
     private void CineRegistro() {
-        /*CineReserva cine = new CineReserva(framePrograma);
+        CineReserva cine = new CineReserva(framePrograma);
         salaCine = cine.getSalaCine();
         asiento = cine.getAsiento();
         pelicula = cine.getPelicula();
-        calendarCine = cine.getCalendarCine();*/
+        calendarCine = cine.getCalendarCine();
     }
 
     private void GimnasioRegistro() {

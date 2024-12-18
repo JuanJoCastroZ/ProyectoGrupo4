@@ -102,8 +102,7 @@ public class gestionReservas extends JPanel {
     //Método para modificar una reserva existente
     private void MoficiarReserva(int posicionReserva) {
     //Opciones disponibles para modificar los campos de la reserva
-    Object[] opciones = {"Nombre del Empleado", "ID del Empleado", "Sala de Cine", "Asiento", "Película", "Fecha y Hora del Cine\n", "Fecha y Hora del Gimnasio", "Tipo de Clase", "Fecha y Hora de la Clase", "Bebida", "Fecha y hora de la Bebida"
-    };
+    Object[] opciones = {"Nombre del Empleado", "ID del Empleado", "Sala de Cine", "Asiento", "Película", "Fecha y Hora del Cine\n", "Fecha y Hora del Gimnasio", "Tipo de Clase", "Fecha y Hora de la Clase", "Bebida", "Fecha y hora de la Bebida"};
 
     //Mostrar cuadro de diálogo para seleccionar el campo a modificar
     int seleccionInterna = JOptionPane.showOptionDialog(framePrograma, "Elige un campo para modificar:", "Modificar Reserva", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
@@ -136,39 +135,48 @@ public class gestionReservas extends JPanel {
                 );
                 break;
             case 5:
-                //listaReservas[posicionReserva].setCalendarCine(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha del cine:"));
+                listaReservas[posicionReserva].setCalendarCine(stringACalendar("Introduce la nueva fecha del cine en formato DD/MM/AAAA", "Introduce la nueva hora del cine en formato HH:MM"));
                 
                 break;
             case 6:
-                //listaReservas[posicionReserva].setCalendarGym(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha del gimnasio:")
+                listaReservas[posicionReserva].setCalendarGym(stringACalendar("Introduce la nueva fecha de reserva en gimnasio en formato DD/MM/AAAA", "Introduce la nueva hora en formato HH:MM"));
                 
                 break;
             case 7:
-                //listaReservas[posicionReserva].setTipoClase(JOptionPane.showInputDialog(framePrograma, "Introduce el nuevo tipo de clase:"));
+                listaReservas[posicionReserva].setTipoClase(JOptionPane.showInputDialog(framePrograma, "Introduce el nuevo tipo de clase:"));
                 break;
             case 8:
-                //listaReservas[posicionReserva].setCalendarClase(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha de la clase:"));
+                listaReservas[posicionReserva].setCalendarClase(stringACalendar("Introduce la nueva fecha de clase en formato DD/MM/AAAA", "Introduce la nueva hora de clase en formato HH:MM"));
                 break;
             case 9:
-                listaReservas[posicionReserva].setBebida(
-                        JOptionPane.showInputDialog(framePrograma, "Introduce la nueva bebida:")
-                );
+                listaReservas[posicionReserva].setBebida(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva bebida:"));
                 break;
             case 10:
-                //listaReservas[posicionReserva].setCalendarBebida(JOptionPane.showInputDialog(framePrograma, "Introduce la nueva fecha de la bebida:"));
+                listaReservas[posicionReserva].setCalendarBebida(stringACalendar("Introduce la nueva fecha de bebida en formato DD/MM/AAAA", "Introduce la nueva hora de bebida en formato HH:MM"));
                 break;
             default:  
                 break;
         }
         actualizarPanel();
     }
-    //Da formato con simpledateformat a los datos calendar de la reserva
-    private String formatearFecha(Calendar fecha) {
-        if (fecha == null) {
-            return "Sin definir";
-        }
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        return formato.format(fecha.getTime());
+    //Convierte string a calendar
+    private Calendar stringACalendar(String porImprimir, String porImprimir2) {
+        String calendarDato = JOptionPane.showInputDialog(framePrograma, porImprimir);
+        String horaMinutoDato = JOptionPane.showInputDialog(framePrograma, porImprimir2);
+        // Parsear fecha y hora
+        String[] calendario = calendarDato.split("/");
+        int dia = Integer.parseInt(calendario[0]);
+        int mes = Integer.parseInt(calendario[1]) - 1;
+        int año = Integer.parseInt(calendario[2]);
+
+        String[] tiempo = horaMinutoDato.split(":");
+        int hora = Integer.parseInt(tiempo[0]);
+        int minuto = Integer.parseInt(tiempo[1]);
+
+        // Crear instancia de Calendar
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(año, mes, dia, hora, minuto);
+        return calendar;
     }
 
     //Remueve y agrega de nuevo la información con metodos de java swing
