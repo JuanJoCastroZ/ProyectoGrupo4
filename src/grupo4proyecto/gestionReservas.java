@@ -4,6 +4,10 @@
  */
 package grupo4proyecto;
 
+/**
+ *
+ * @author Juan Jose
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

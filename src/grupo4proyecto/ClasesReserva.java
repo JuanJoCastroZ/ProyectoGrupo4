@@ -7,6 +7,10 @@ package grupo4proyecto;
 import java.util.Calendar;
 import javax.swing.*;
 
+/**
+ *
+ * @author Juan Jose
+ */
 public class ClasesReserva {
     // Atributos por devolver
     private String tipoClase = "N/A";

@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Calendar;
 
+/**
+ *
+ * @author Juan Jose
+ */
 public class GimnasioReserva extends JPanel {
     // Atributo de reserva
     private Calendar fechaHoraReserva;
