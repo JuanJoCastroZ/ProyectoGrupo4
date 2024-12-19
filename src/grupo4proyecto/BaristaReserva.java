@@ -15,17 +15,17 @@ public class BaristaReserva extends JPanel {
     private String Bebida;
     private Calendar horaBebida;
     private Calendar diaBebida;
-
+    //COnstructor
     public BaristaReserva(JFrame framePrograma) {
         this.Bebida = "";
         this.horaBebida = Calendar.getInstance();
         this.diaBebida = Calendar.getInstance();
 
-        // Llamamos al método para recoger los datos del usuario
+        //Llamamos al método para recoger los datos del usuario
         pedirInformacion(framePrograma);
         
     }
-
+        //Metodos
     public String getBebida() {
         return Bebida;
     }
@@ -53,7 +53,7 @@ public class BaristaReserva extends JPanel {
         diaBebida.set(Calendar.MONTH, mes - 1);
         diaBebida.set(Calendar.DAY_OF_MONTH, dia);
     }
-
+    /*
     public void mostrarMenu() {
         System.out.println("Menú de bebida:");
         System.out.println("1. Café normal");
@@ -63,8 +63,8 @@ public class BaristaReserva extends JPanel {
         System.out.println("5. Moka");
         System.out.println("6. Té chai");
         System.out.println("7. Café trío");
-    }
-
+    }*/
+    //Detecta la opcion selecta
     private String seleccionaraBebida(int opcion) {
         switch (opcion) {
             case 1:
@@ -86,7 +86,7 @@ public class BaristaReserva extends JPanel {
         }
     }
 
-    public void mostrartPedido() {
+    public void mostrartPedido() { //Muestra el pedido en consola (descartado)
         System.out.println("Tu bebida es: " + Bebida);
         System.out.println("Se entregará el día: " + diaBebida.get(Calendar.DAY_OF_MONTH) + "/"
                 + (diaBebida.get(Calendar.MONTH) + 1) + "/" + diaBebida.get(Calendar.YEAR));
@@ -94,14 +94,14 @@ public class BaristaReserva extends JPanel {
                 + horaBebida.get(Calendar.MINUTE));
     }
 
-    public String obtenerDatosReserva() {
+    public String obtenerDatosReserva() { //Muestra el resultado de lo seleccionado
         return Bebida + ", " + horaBebida.get(Calendar.HOUR_OF_DAY) + ":" + horaBebida.get(Calendar.MINUTE)
                 + ", " + diaBebida.get(Calendar.DAY_OF_MONTH) + "/" + (diaBebida.get(Calendar.MONTH) + 1) + "/" + diaBebida.get(Calendar.YEAR);
     }
 
-    // Método actualizado para pedir información usando JFrame
+    //Metodo para solicitar informacion
     private void pedirInformacion(JFrame framePrograma) {
-        // Pedir la bebida
+        //Pide la bebida
         String bebidaSeleccionada = JOptionPane.showInputDialog(framePrograma, "Selecciona la bebida (1-7):\n"
                 + "1. Café normal\n"
                 + "2. Capuchino\n"
@@ -115,14 +115,13 @@ public class BaristaReserva extends JPanel {
             this.Bebida = seleccionaraBebida(opcion);
         }
 
-        // Pedir la hora de la bebida
+        //Pide hora
         String hora = JOptionPane.showInputDialog(framePrograma, "Ingresa la hora de la bebida (0-23):");
         String minuto = JOptionPane.showInputDialog(framePrograma, "Ingresa los minutos de la bebida (0-59):");
         if (hora != null && minuto != null) {
             setHoraBebida(Integer.parseInt(hora), Integer.parseInt(minuto));
         }
-
-        // Pedir el día de la bebida
+        //Pide dia
         String dia = JOptionPane.showInputDialog(framePrograma, "Ingresa el día de la bebida (día del mes):");
         String mes = JOptionPane.showInputDialog(framePrograma, "Ingresa el mes de la bebida (1-12):");
         String año = JOptionPane.showInputDialog(framePrograma, "Ingresa el año de la bebida:");

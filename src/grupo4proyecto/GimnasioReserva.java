@@ -5,7 +5,6 @@
 package grupo4proyecto;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Calendar;
 
 /**
@@ -52,7 +51,7 @@ public class GimnasioReserva extends JPanel {
     }
 
     private void almacenarDatos(String fechaInput, String horaInput, JFrame framePrograma) {
-        try {
+        try { //Uso de try catch para validar si el dato no esta ocupado o si el tipado sirve
             // Parsear fecha y hora
             String[] fechaPartes = fechaInput.split("/");
             int dia = Integer.parseInt(fechaPartes[0]);

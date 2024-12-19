@@ -12,7 +12,7 @@ import java.awt.*;
  * @author Juan Jose
  */
 public class framePrograma extends javax.swing.JFrame {
-
+    //Declaramos los atributos para definir el panel Y para instanciar las interfaces
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private InterfazInicial interfazInicial;
@@ -27,23 +27,20 @@ public class framePrograma extends javax.swing.JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
 
-        // Estilo empresarial
+        //UI personalizada 
         UIManager.put("Button.font", new Font("Arial", Font.PLAIN, 14));
         UIManager.put("Label.font", new Font("Arial", Font.PLAIN, 14));
         UIManager.put("Panel.background", Color.WHITE);
-
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Inicializar las interfaces
+        //Instancia la interfaz inicial y pasa parametros para que el panel sea visible
         interfazInicial = new InterfazInicial(true, 0, this);
-        interfaz = new Interfaz("Juan Jose", "12345", this);
+        interfaz = new Interfaz("Juan Jose", "12345", this); //Datos predeterminados para testear
 
-        // Añadir las interfaces al panel principal
+        //Añadir las dos interfaces al mismo panel
         mainPanel.add(interfazInicial.getPanel(), "InterfazInicial");
         mainPanel.add(interfaz.getPanel(), "Interfaz");
-
-        // Añadir el panel principal al frame
         getContentPane().add(mainPanel, BorderLayout.CENTER);
         cardLayout.show(mainPanel, "InterfazInicial");
     }
@@ -60,21 +57,40 @@ public class framePrograma extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(319, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jButton1)
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     
 
@@ -90,5 +106,6 @@ public class framePrograma extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

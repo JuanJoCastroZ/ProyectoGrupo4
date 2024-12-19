@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.util.Calendar;
 
 public class Interfaz extends JPanel {
+    //Atributos por pasarle a el objeto de reserva
     private String empleadoNombre;
     private String empleadoID;
     private int salaCine;
@@ -25,9 +26,9 @@ public class Interfaz extends JPanel {
     private Calendar calendarGym;
     private Calendar calendarClase;
     private Calendar calendarBebida;
-    private GeneradorReserva reserva;
+    private GeneradorReserva reserva; //Para instanciar el objeto en un metodo
     private JFrame framePrograma;
-
+    //Metodo constructor
     public Interfaz(String empleadoNombre, String empleadoID, JFrame framePrograma) {
         this.empleadoNombre = empleadoNombre;
         this.empleadoID = empleadoID;
@@ -38,7 +39,7 @@ public class Interfaz extends JPanel {
     public JPanel getPanel() {
         return this;
     }
-
+    //Metodos
     private void initPanel() { //Muestra las opciones por poder reservar
         setLayout(new BorderLayout());
 
@@ -57,7 +58,7 @@ public class Interfaz extends JPanel {
         add(buttonPanel, BorderLayout.CENTER);
     }
 
-    private void botonPresionado(String opcion) {
+    private void botonPresionado(String opcion) { //Switch para determinar a que modulo ingresar
         switch (opcion) {
             case "Cine":
                 CineRegistro();
@@ -78,6 +79,7 @@ public class Interfaz extends JPanel {
         }
     }
 
+    //Metodos que instancian las distintas clases y al terminar la ejecucion guarda los atributos nuevos temporalmente utilizando getters
     private void CineRegistro() {
         CineReserva cine = new CineReserva(framePrograma);
         salaCine = cine.getSalaCine();
@@ -102,12 +104,11 @@ public class Interfaz extends JPanel {
         bebida = barista.getBebida();
         calendarBebida.set(barista.getDiaBebida().get(Calendar.YEAR), barista.getDiaBebida().get(Calendar.MONTH), barista.getDiaBebida().get(Calendar.DAY_OF_MONTH), barista.getHoraBebida().get(Calendar.HOUR_OF_DAY), barista.getHoraBebida().get(Calendar.MINUTE));
     }
-
+    //A la hora de clickear generar reserva se confirma que los datos seran utilizados
     private void generarReserva() {
         reserva = new GeneradorReserva(empleadoNombre, empleadoID, salaCine, asiento, pelicula,calendarCine, calendarGym, tipoClase, calendarClase, bebida, calendarBebida);
         JOptionPane.showMessageDialog(framePrograma, "Reserva generada correctamente.");
     }
-
     public GeneradorReserva getReserva() {
         return reserva;
     }

@@ -27,13 +27,13 @@ public class CineReserva extends JPanel {
     private static LocalTime[][] horarios = new LocalTime[numSalas][3];
     private static String[][] idiomas = new String[numSalas][3];
 
-    // Constructor con JFrame
+    //Metodo constructor
     public CineReserva(JFrame framePrograma) {
-        inicializarSistema();  // Inicializa configuración de la sala
-        volverAlMenu(framePrograma);  // Inicia el menú interactivo
+        inicializarSistema();  //inicializa configuración de la sala
+        volverAlMenu(framePrograma);  //inicia el menú interactivo
     }
 
-    // Inicializa el sistema de cine
+    //Inicializa el sistema de cine
     private static void inicializarSistema() {
         peliculas[0][0] = "Wicked"; peliculas[0][1] = "Moana"; peliculas[0][2] = "Star Wars";
         peliculas[1][0] = "It"; peliculas[1][1] = "Los fantasmas de Scrooge"; peliculas[1][2] = "La La Land";
@@ -85,7 +85,7 @@ public class CineReserva extends JPanel {
     }
 
     private void realizarReserva(JFrame framePrograma) {
-        try {
+        try { //Utilizacion de try catch para validar que la informacion ingresada por el usuario sea valida o este disponible
             salaCine = Integer.parseInt(JOptionPane.showInputDialog(framePrograma, "Elija la sala que desea (1-" + numSalas + "):")) - 1;
             if (salaCine < 0 || salaCine >= numSalas) throw new Exception("Sala no disponible");
 
@@ -104,7 +104,7 @@ public class CineReserva extends JPanel {
             reservas[salaCine][asientoSeleccionado][0] = 1;
             reservas[salaCine][asientoSeleccionado][1] = peliculaIndex;
 
-            // Asignación de atributos
+            //Asignacion de atributos
             asiento = String.valueOf(asientoSeleccionado + 1);
             pelicula = peliculas[salaCine][peliculaIndex];
             calendarCine = Calendar.getInstance();
@@ -118,7 +118,7 @@ public class CineReserva extends JPanel {
         }
     }
 
-    // Getters agregados para interacción con Interfaz.java
+    //Getters para interaccion con la clase interfaz
     public int getSalaCine() {
         return salaCine + 1;
     }

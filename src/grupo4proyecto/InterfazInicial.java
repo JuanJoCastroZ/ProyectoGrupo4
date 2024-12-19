@@ -62,7 +62,7 @@ public class InterfazInicial extends JPanel {
         add(buttonPanel, BorderLayout.CENTER);
     }
 
-    private void handleButtonClick(String opcion) {
+    private void handleButtonClick(String opcion) { //Maneja el evento de los botones de la interfaz inicial
         switch (opcion) {
             case "Reservar":
                 Empleado empleado = new Empleado();

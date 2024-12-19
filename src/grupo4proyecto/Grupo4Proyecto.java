@@ -15,7 +15,7 @@ public class Grupo4Proyecto {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> { //El invoke nos va a permitir manejar los eventos de forma separada
             framePrograma frame = new framePrograma();
             frame.setVisible(true);
         });
